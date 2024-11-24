@@ -233,10 +233,10 @@ class wandb_logger:
         try:
             wandb.init(
                 # Set the project where this run will be logged
-                project=config['project'],
-                name=config['name'],
+                project=config.project,
+                name=config.name,
                 config=config,
-                entity=config['entity'],            
+                entity=config.entity,            
                 )
         except:
                 wandb.init(
@@ -270,12 +270,12 @@ class wandb_logger:
         wandb.finish(quiet=True)
 
     def load(self, net):
-        path = os.path.join(self.config['path_data'], self.config['path_ckpt'], self.config['file_ckpt'])
+        path = os.path.join(self.config.path_data, self.config.path_ckpt, self.config.file_ckpt)
         net.load_state_dict(torch.load(path))
         print(f'load {path}')
 
     def save(self, net, file_name=None):
-        path_ckpt = os.path.join(self.config['path_data'], self.config['path_ckpt'])
+        path_ckpt = os.path.join(self.config.path_data, self.config.path_ckpt)
         if not os.path.exists(path_ckpt):
             os.makedirs(path_ckpt)
             print(f'{path_ckpt} created!')

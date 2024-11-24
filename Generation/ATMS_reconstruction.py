@@ -6,9 +6,6 @@ from torch.nn import CrossEntropyLoss
 from torch.nn import functional as F
 from torch.optim import Adam
 from torch.utils.data import DataLoader
-
-os.environ["WANDB_API_KEY"] = "KEY"
-os.environ["WANDB_MODE"] = 'offline'
 from itertools import combinations
 
 import clip
@@ -510,9 +507,9 @@ def main():
     parser = argparse.ArgumentParser(description='EEG Transformer Training Script')
     parser.add_argument('--data_path', type=str, default="/root/autodl-tmp/THINGS/Preprocessed_data_250Hz", help='Path to the EEG dataset')
     parser.add_argument('--output_dir', type=str, default='./outputs/contrast', help='Directory to save output results')    
-    parser.add_argument('--project', type=str, default="train_pos_img_text_rep", help='WandB project name')
-    parser.add_argument('--entity', type=str, default="sustech_rethinkingbci", help='WandB entity name')
-    parser.add_argument('--name', type=str, default="lr=3e-4_img_pos_pro_eeg", help='Experiment name')
+    parser.add_argument('--project', type=str, default="dongyang", help='WandB project name')
+    parser.add_argument('--entity', type=str, default="alljoined1", help='WandB entity name')
+    parser.add_argument('--name', type=str, default="lr=3e-4_img_pos_pro_eeg_our_features", help='Experiment name')
     parser.add_argument('--lr', type=float, default=3e-4, help='Learning rate')
     parser.add_argument('--epochs', type=int, default=40, help='Number of epochs')
     parser.add_argument('--batch_size', type=int, default=64, help='Batch size')

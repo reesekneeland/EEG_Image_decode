@@ -4,18 +4,18 @@
 
 set -e
 
-conda create -n BCI python=3.10.8 -y
-conda activate BCI
+mamba create -n dongyang python=3.10.8 -y
+mamba activate dongyang
 
-conda install numpy matplotlib tqdm scikit-image jupyterlab -y
-conda install -c conda-forge accelerate -y
+mamba install numpy matplotlib tqdm scikit-image jupyterlab -y
+mamba install -c conda-forge accelerate -y
 
 pip install clip-retrieval clip pandas matplotlib ftfy regex kornia umap-learn
 pip install dalle2-pytorch
 
 pip install open_clip_torch
 
-pip install transformers==4.28.0.dev0
+pip install transformers==4.28.0
 pip install diffusers==0.24.0
 
 pip install braindecode==0.8.1

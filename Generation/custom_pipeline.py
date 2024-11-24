@@ -457,8 +457,6 @@ class Generator4Embeds:
 
     def __init__(self, num_inference_steps=1, device='cuda') -> None:
         import os
-        os.environ['http_proxy'] = 'http://10.16.35.10:13390' 
-        os.environ['https_proxy'] = 'http://10.16.35.10:13390' 
 
         self.num_inference_steps = num_inference_steps
         self.dtype = torch.float16
@@ -466,7 +464,7 @@ class Generator4Embeds:
         
         # path = '/home/weichen/.cache/huggingface/hub/models--stabilityai--sdxl-turbo/snapshots/f4b0486b498f84668e828044de1d0c8ba486e05b'
         # path = "/home/ldy/Workspace/sdxl-turbo/f4b0486b498f84668e828044de1d0c8ba486e05b"
-        pipe = DiffusionPipeline.from_pretrained("stabilityai/sdxl-turbo", torch_dtype=torch.float16, variant="fp16")
+        pipe = DiffusionPipeline.from_pretrained("stabilityai/sdxl-turbo", torch_dtype=torch.float16, variant="fp16", cache_dir="/mnt/efs1/shared/cache/")
         # pipe = DiffusionPipeline.from_pretrained(path, torch_dtype=torch.float16, variant="fp16")
         pipe.to(device)
         pipe.generate_ip_adapter_embeds = generate_ip_adapter_embeds.__get__(pipe)

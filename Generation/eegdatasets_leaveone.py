@@ -10,9 +10,9 @@ from PIL import Image
 import requests
 
 import os
-proxy = 'http://127.0.0.1:7890'
-os.environ['http_proxy'] = proxy
-os.environ['https_proxy'] = proxy
+# proxy = 'http://127.0.0.1:7890'
+# os.environ['http_proxy'] = proxy
+# os.environ['https_proxy'] = proxy
 cuda_device_count = torch.cuda.device_count()
 print(cuda_device_count)
 device = "cuda:0" if torch.cuda.is_available() else "cpu"
@@ -33,7 +33,8 @@ with open(config_path, "r") as config_file:
 data_path = config["data_path"]
 img_directory_training = config["img_directory_training"]
 img_directory_test = config["img_directory_test"]
-
+features_directory = config["features_path"]
+print("features_directory", features_directory)
 
 class EEGDataset():
     """
@@ -61,12 +62,15 @@ class EEGDataset():
         
         if self.classes is None and self.pictures is None:
             # Try to load the saved features if they exist
-            features_filename = os.path.join(f'{model_type}_features_train.pt') if self.train else os.path.join(f'{model_type}_features_test.pt')
-            
+            features_filename = os.path.join(features_directory, f'features-train.pt') if self.train else os.path.join(features_directory, f'features-test.pt')
+            print(f"features_filename: {features_filename}")
             if os.path.exists(features_filename) :
                 saved_features = torch.load(features_filename)
-                self.text_features = saved_features['text_features']
-                self.img_features = saved_features['img_features']
+                
+                self.text_features = torch.stack(list(saved_features['text'].values()))
+                self.img_features = torch.stack(list(saved_features['image'].values()))
+                self.img_features /= self.img_features.norm(dim=-1, keepdim=True)
+                self.text_features /= self.text_features.norm(dim=-1, keepdim=True)
             else:
                 self.text_features = self.Textencoder(self.text)
                 self.img_features = self.ImageEncoder(self.img)
